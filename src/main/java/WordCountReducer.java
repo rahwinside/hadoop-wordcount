@@ -6,19 +6,13 @@ import java.io.IOException;
 
 public class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
     @Override
-    public void reduce(Text key, Iterable<IntWritable> values, Context context) {
-        try {
-            int resultNumber = 0;
-            for (IntWritable value : values) {
-                resultNumber += value.get();
-            }
-            IntWritable result = new IntWritable();
-            result.set(resultNumber);
-            context.write(key, result);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+        int resultNumber = 0;
+        for (IntWritable value : values) {
+            resultNumber += value.get();
         }
+        IntWritable result = new IntWritable();
+        result.set(resultNumber);
+        context.write(key, result);
     }
 }
